@@ -293,3 +293,15 @@ When the PR is merged, the Issue will be automatically closed if you included "f
    - Answered knowledge questions with thoughtful insights.
 
 ---
+## **NEW DEPENDENCIES**
+This application uses the following third-party library:
+
+**Rich**
+
+The rich package is used to display tasks in a formatted table within the terminal, 
+improving readability and user experience.
+
+The dependency has been added in requirements-dev.txt. However, it can be run manually as:
+```bash
+   pip install rich
+```
