@@ -36,6 +36,7 @@ def add_task(tasks, title, description, due_date):
     # Validate due date format
     try:
         datetime.strptime(due_date, "%d-%m-%Y")
+
     except ValueError:
         print("Error: Invalid date format. Use DD-MM-YYYY.")
         return False
@@ -65,8 +66,8 @@ def delete_task(tasks, title):
     for task in tasks:
         # Bug #25: Title Validation Ignores Case and Leading/Trailing
         # Whitespace, Allowing Duplicate Titles
-        #Fix: storing titles as it is but comparing by converting into
-        #lowercase
+        # Fix: storing titles as it is but comparing by converting into
+        # lowercase
         if task.title.lower() == title.lower():
             tasks.remove(task)
             save_tasks(tasks)
