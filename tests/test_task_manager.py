@@ -48,8 +48,29 @@ class TestTaskManager(unittest.TestCase):
         Test adding a duplicate task with the same title.
         Verify that duplicates are not allowed and the function returns False.
         """
+        add_task(self.tasks, "Test1", "Description", "01-12-2021")
+        result = add_task(self.tasks, "Test1", "New Description", "02-12-2024")
+        self.assertFalse(result)
+
+    def test_add_duplicate_task_with_whitespaces(self):
+        """
+        Test adding a duplicate task with the same title.
+        But 2 titles differ by the addition of leading whitespaces
+        Verify that duplicates are not allowed and the function returns False.
+        """
         add_task(self.tasks, "Test Task", "Description", "01-12-2021")
-        result = add_task(self.tasks, "Test Task", "New Description", "02-12-2024")
+        result = add_task(self.tasks, "  Test Task", "New Description", "02-12-2024")
+        self.assertFalse(result)
+
+    def test_add_duplicate_task_with_diff_case(self):
+        """
+        Test adding a duplicate task with the same title.
+        Title 1 : task1
+        Title 2: TASK1
+        Verify that duplicates are not allowed and the function returns False.
+        """
+        add_task(self.tasks, "task1", "Description", "01-12-2021")
+        result = add_task(self.tasks, "TASK1", "New Description", "02-12-2024")
         self.assertFalse(result)
 
     def test_add_invalid_due_date(self):
