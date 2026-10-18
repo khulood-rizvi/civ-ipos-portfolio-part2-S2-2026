@@ -1,4 +1,6 @@
 import unittest
+from unittest.mock import patch
+
 from src.task_manager import add_task, delete_task, filter_tasks_by_status
 from src.file_handler import save_tasks, load_tasks
 from src.task import Task
@@ -52,26 +54,38 @@ class TestTaskManager(unittest.TestCase):
         result = add_task(self.tasks, "Test1", "New Description", "02-12-2024")
         self.assertFalse(result)
 
-    def test_add_duplicate_task_with_whitespaces(self):
+    @patch("src.task_manager.save_tasks")
+    def test_add_duplicate_task_with_whitespace(self, mock_save_tasks):
         """
-        Test adding a duplicate task with the same title.
-        But 2 titles differ by the addition of leading whitespaces
-        Verify that duplicates are not allowed and the function returns False.
-        """
-        add_task(self.tasks, "Test Task", "Description", "01-12-2021")
-        result = add_task(self.tasks, "  Test Task", "New Description", "02-12-2024")
-        self.assertFalse(result)
+                Test adding a duplicate task with the same title.
+                But 2 titles differ by the addition of leading whitespaces
+              Verify that duplicates are not allowed and the function returns False.
+               """
+        tasks = [
+            Task("Test Task", "Description", "01-12-2024")
+        ]
 
-    def test_add_duplicate_task_with_diff_case(self):
+        result2 = add_task(tasks, "  Test Task", "New Description", "02-12-2024")
+
+        self.assertFalse(result2)
+        mock_save_tasks.assert_not_called()
+
+
+    @patch("src.task_manager.save_tasks")
+    def test_add_duplicate_task_with_diff_case(self, mock_save_tasks):
         """
         Test adding a duplicate task with the same title.
         Title 1 : task1
         Title 2: TASK1
         Verify that duplicates are not allowed and the function returns False.
         """
-        add_task(self.tasks, "task1", "Description", "01-12-2021")
-        result = add_task(self.tasks, "TASK1", "New Description", "02-12-2024")
+        tasks = [
+            Task("Task1", "Description", "01-12-2024")
+        ]
+        result = add_task(tasks, "TASK1", "New Description", "02-12-2024")
         self.assertFalse(result)
+        mock_save_tasks.assert_not_called()
+
 
     def test_add_invalid_due_date(self):
         """
