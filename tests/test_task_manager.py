@@ -70,7 +70,6 @@ class TestTaskManager(unittest.TestCase):
         self.assertFalse(result2)
         mock_save_tasks.assert_not_called()
 
-
     @patch("src.task_manager.save_tasks")
     def test_add_duplicate_task_with_diff_case(self, mock_save_tasks):
         """
@@ -85,7 +84,6 @@ class TestTaskManager(unittest.TestCase):
         result = add_task(tasks, "TASK1", "New Description", "02-12-2024")
         self.assertFalse(result)
         mock_save_tasks.assert_not_called()
-
 
     def test_add_invalid_due_date(self):
         """
