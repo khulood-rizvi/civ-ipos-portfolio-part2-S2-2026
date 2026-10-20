@@ -1,10 +1,10 @@
+import os
 import unittest
 from unittest.mock import patch
 
-from src.task_manager import add_task, delete_task, filter_tasks_by_status
 from src.file_handler import save_tasks, load_tasks
 from src.task import Task
-import os
+from src.task_manager import add_task, delete_task, filter_tasks_by_status, list_tasks
 
 TEST_FILE = "test_tasks.bin"
 
@@ -61,9 +61,7 @@ class TestTaskManager(unittest.TestCase):
                 But 2 titles differ by the addition of leading whitespaces
               Verify that duplicates are not allowed and the function returns False.
                """
-        tasks = [
-            Task("Test Task", "Description", "01-12-2024")
-        ]
+        tasks = [Task("Test Task", "Description", "01-12-2024")]
 
         result2 = add_task(tasks, "  Test Task", "New Description", "02-12-2024")
 
@@ -78,9 +76,7 @@ class TestTaskManager(unittest.TestCase):
         Title 2: TASK1
         Verify that duplicates are not allowed and the function returns False.
         """
-        tasks = [
-            Task("Task1", "Description", "01-12-2024")
-        ]
+        tasks = [Task("Task1", "Description", "01-12-2024")]
         result = add_task(tasks, "TASK1", "New Description", "02-12-2024")
         self.assertFalse(result)
         mock_save_tasks.assert_not_called()
@@ -127,6 +123,20 @@ class TestTaskManager(unittest.TestCase):
         loaded_tasks = load_tasks()
         self.assertEqual(len(loaded_tasks), 1)
         self.assertEqual(loaded_tasks[0].title, "Persistent Task")
+
+    @patch("src.task_manager.console")
+    def test_task_list_rich(self, mock_console):
+        """
+           Test that list_tasks displays tasks using a Rich table.
+
+           Verify that the Rich console's print() method is called
+           once when a task list is displayed.
+           """
+        tasks = [Task("Mock test", "Description", "12-12-2024")]
+
+        # save_tasks(tasks)
+        list_tasks(tasks)
+        mock_console.print.assert_called_once()
 
 
 if __name__ == "__main__":
