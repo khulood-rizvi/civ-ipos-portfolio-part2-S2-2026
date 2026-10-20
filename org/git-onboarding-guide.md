@@ -1,7 +1,7 @@
 # Git Onboarding Guide
 >
 > North Metro Software Pty Ltd
-
+CHANGE
 Welcome to North Metro Software! This guide outlines our Git workflow and branch naming conventions, designed to ensure smooth collaboration and maintain the integrity of our codebase. Our practices are based on GitHub Flow and conventional commits, with some adaptations to suit our enterprise environment.
 
 ## 1. Repository Structure
